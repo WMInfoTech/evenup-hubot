@@ -30,4 +30,19 @@ class hubot::params {
   $auto_accept_host_key = true
   $service_ensure       = 'running'
   $service_enable       = true
+
+  case $::osfamily {
+    'Debian': {
+      $hubot_init         = "hubot.init.${::osfamily}.erb"
+      $nodejs_manage_repo = true
+    }
+    'RedHat': {
+      $hubot_init         = "hubot.init.${::osfamily}.erb"
+      $nodejs_manage_repo = false
+    }
+    default: {
+      $hubot_init         = 'hubot.init.erb'
+      $nodejs_manage_repo = false
+    }
+  }
 }

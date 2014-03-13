@@ -122,6 +122,7 @@ class hubot (
   $auto_accept_host_key = $::hubot::params::auto_accept_host_key,
   $service_ensure       = $::hubot::params::service_ensure,
   $service_enable       = $::hubot::params::service_enable,
+  $nodejs_manage_repo   = $::hubot::params::nodejs_manage_repo,
 ) inherits hubot::params {
 
   if $log_file {
@@ -138,7 +139,9 @@ class hubot (
     $service_enable_real = $service_enable
   }
 
-  require 'nodejs'
+  class { 'nodejs':
+    manage_repo =>  $::hubot::params::nodejs_manage_repo,
+  }
 
   class { 'hubot::install': }
   class { 'hubot::config': }
