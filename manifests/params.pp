@@ -36,10 +36,6 @@ class hubot::params {
       $hubot_init         = "hubot.init.${::osfamily}.erb"
       $nodejs_manage_repo = true
     }
-    'RedHat': {
-      $hubot_init         = "hubot.init.${::osfamily}.erb"
-      $nodejs_manage_repo = false
-    }
     default: {
       $hubot_init         = 'hubot.init.erb'
       $nodejs_manage_repo = false

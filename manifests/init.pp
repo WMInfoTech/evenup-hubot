@@ -73,6 +73,9 @@
 #   Boolean.  Enable service at boot?  NOTE: see $adapter for exception
 #   Default: true
 #
+# [*nodejs_manage_repo*]
+#   Boolean. Allow the nodejs module to manage the repository it gets installed from.
+#     Deffault is True for Debian, False for everyone else.
 #
 # === Examples
 #
@@ -138,9 +141,13 @@ class hubot (
     $service_ensure_real = $service_ensure
     $service_enable_real = $service_enable
   }
-
-  class { 'nodejs':
-    manage_repo =>  $::hubot::params::nodejs_manage_repo,
+  if $::hubot::params::nodejs_manage_repo {
+    class { 'nodejs':
+      manage_repo =>  $::hubot::params::nodejs_manage_repo,
+    }
+  }
+  else {
+    require 'nodejs'
   }
 
   class { 'hubot::install': }
